@@ -22,7 +22,7 @@ function varargout = untitled(varargin)
 
 % Edit the above text to modify the response to help untitled
 
-% Last Modified by GUIDE v2.5 03-Dec-2019 21:49:05
+% Last Modified by GUIDE v2.5 03-Dec-2019 23:50:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -88,7 +88,9 @@ cla;
 popup_sel_index = get(handles.popupmenu1, 'Value');
 switch popup_sel_index
     case 1
-        plot(rand(5));
+        status = "rand";
+        randFunction();
+        % plot(rand(5));
     case 2
         plot(sin(1:0.01:25.99));
     case 3
@@ -162,3 +164,45 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 set(hObject, 'String', {'plot(rand(5))', 'plot(sin(1:0.01:25))', 'bar(1:.5:10)', 'plot(membrane)', 'surf(peaks)'});
+
+
+status = "init";
+statusList = ["init", "rand"];
+randFunctionConfig = struct("seed",5);
+confings = [randFunction];
+
+function edit1_Callback(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit1 as text
+%        str2double(get(hObject,'String')) returns contents of edit1 as a double
+randFunctionConfig.seed = get(handles.edit1,'int');
+
+% --- Executes during object creation, after setting all properties.
+function edit1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+  
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+if(strcmp("rand", status))
+    set(hObject, 'visible','on'); %ÏÔÊ¾
+else
+    set(hObject, 'visible','off'); %Òþ²Ø
+end
+
+function randFunction()
+if checkValue(randFuctionConfig.seed)
+    plot(rand(randFunctionConfig.seed));
+end 
+
+%¼ì²é¿ÕÖµ
+function checkValue(value)
+
+return value.length >= 1;
